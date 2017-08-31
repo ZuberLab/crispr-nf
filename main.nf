@@ -129,7 +129,6 @@ process demultiplex_reads {
     flag_strandedness = params.forward_stranded ? '--bol' : '--eol'
     num_mismatches = params.barcode_demux_mismatches
 
-    script:
     """
     cat ${files[1]} | fastx_barcode_splitter.pl \
         --bcfile ${files[0]} \
