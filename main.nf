@@ -38,8 +38,9 @@ process process_library {
     file("library.saf") into librarySafFile
     file("library.fasta") into libraryFastaFile
 
+    script:
     """
-    Rscript process_lib.R ${library} 'G'
+    process_lib.R ${library} 'G'
     """
 }
 
@@ -55,6 +56,7 @@ process build_bowtie_index {
     output:
     file("bt2") into bt2Index
 
+    script:
     """
     mkdir -p bt2
     bowtie2-build ${library_fasta} bt2/
@@ -73,6 +75,7 @@ process bam_to_fastq {
     output:
     set val("${id}"), file("${id}.fastq") into fastqFiles
 
+    script:
     """
     samtools fastq ${bam} > ${id}.fastq
     """
@@ -126,6 +129,7 @@ process demultiplex_reads {
     flag_strandedness = params.forward_stranded ? '--bol' : '--eol'
     num_mismatches = params.barcode_demux_mismatches
 
+    script:
     """
     cat ${files[1]} | fastx_barcode_splitter.pl \
         --bcfile ${files[0]} \
@@ -189,6 +193,7 @@ process compress_reads {
     output:
     file("${fastq}.gz") into processedFiles
 
+    script:
     """
     gzip -c ${fastq} > ${fastq}.gz
     """
@@ -209,6 +214,7 @@ process align_reads {
     output:
     set val("${id}"), file("${fastq.baseName}.bam") into alignedFiles
 
+    script:
     """
     bowtie2 \
         -x ${index}/ \
@@ -240,6 +246,7 @@ process count_reads {
     output:
     set val("${id}"), file("${id}_fc.txt") into countedFiles
 
+    script:
     """
     featureCounts \
         -a ${saf} \
@@ -264,8 +271,9 @@ process counts_to_mageck {
     output:
     file("${id}.txt") into mageckFiles
 
+    script:
     """
-    Rscript process_counts.R ${counts} ${library}
+    process_counts.R ${counts} ${library}
     """
 }
 
@@ -283,8 +291,9 @@ process combine_counts {
     output:
     file("counts.txt") into combinedCountsFile
 
+    script:
     """
-    Rscript combine_counts.R ${counts}
+    combine_counts.R ${counts}
     """
 }
 
