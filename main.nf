@@ -39,7 +39,7 @@ process process_library {
     file("library.fasta") into libraryFastaFile
 
     """
-    Rscript bin/process_lib.R ${library} 'G'
+    Rscript process_lib.R ${library} 'G'
     """
 }
 
@@ -265,7 +265,7 @@ process counts_to_mageck {
     file("${id}.txt") into mageckFiles
 
     """
-    Rscript bin/process_counts.R ${counts} ${library}
+    Rscript process_counts.R ${counts} ${library}
     """
 }
 
@@ -284,7 +284,7 @@ process combine_counts {
     file("counts.txt") into combinedCountsFile
 
     """
-    Rscript bin/combine_counts.R ${counts}
+    Rscript combine_counts.R ${counts}
     """
 }
 
