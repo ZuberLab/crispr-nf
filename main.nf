@@ -29,7 +29,7 @@ process process_library {
 
     publishDir path: "${params.resultsDir}/library", mode: 'copy'
 
-    module params.R
+    // module params.R
 
     input:
     file(library) from processLibraryFile
@@ -48,7 +48,7 @@ process build_bowtie_index {
 
     tag "${library_fasta.baseName}"
 
-    module params.bowtie2
+    // module params.bowtie2
 
     input:
     file(library_fasta) from libraryFastaFile
@@ -67,7 +67,7 @@ process bam_to_fastq {
 
     tag "${id}"
 
-    module params.samtools
+    // module params.samtools
 
     input:
     set val(id), file(bam) from bamFiles
@@ -85,7 +85,7 @@ process trim_random_barcode {
 
     tag "${id}"
 
-    module params.fastx_toolkit
+    // module params.fastx_toolkit
 
     input:
     set val(id), file(fastq) from fastqFiles
@@ -117,7 +117,7 @@ process demultiplex_reads {
 
     tag "${id}"
 
-    module params.fastx_toolkit
+    // module params.fastx_toolkit
 
     input:
     set val(id), file(files) from demuxFiles
@@ -155,7 +155,7 @@ process trim_barcode_and_spacer {
 
     tag "${id}_${fastq.baseName}"
 
-    module params.fastx_toolkit
+    // module params.fastx_toolkit
 
     input:
     set val(id), file(fastq) from flattenedSplitFiles
@@ -202,9 +202,9 @@ process align_reads {
 
     tag "${fastq.baseName}"
 
-    module params.bowtie2
-    module params.samtools
-    module params.bamtools
+    // module params.bowtie2
+    // module params.samtools
+    // module params.bamtools
 
     input:
     set val(id), file(fastq) from alignmentSplitFiles
@@ -236,7 +236,7 @@ process count_reads {
 
     tag "${id}"
 
-    module params.subread
+    // module params.subread
 
     input:
     set val(id), file(bams) from groupedAlignedFiles
@@ -261,7 +261,7 @@ process counts_to_mageck {
 
     publishDir path: "${params.resultsDir}/${id}/counts", mode: 'copy', overwrite: 'true'
 
-    module params.R
+    // module params.R
 
     input:
     set val(id), file(counts) from countedFiles
@@ -282,7 +282,7 @@ process combine_counts {
 
     publishDir path: "${params.resultsDir}/counts", mode: 'copy', overwrite: 'true'
 
-    module params.R
+    // module params.R
 
     input:
     file(counts) from mageckFiles.collect()
