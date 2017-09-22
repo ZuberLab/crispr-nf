@@ -131,7 +131,7 @@ process trim_random_barcode {
 demuxBarcodeFiles
     .flatten()
     .map { file -> [file.baseName, file] }
-    .mix(randomBarcodeTrimmedFiles)
+    .concat(randomBarcodeTrimmedFiles)
     .groupTuple()
     .set { demuxFiles }
 
