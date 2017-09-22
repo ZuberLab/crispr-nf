@@ -29,10 +29,6 @@ input_file   <- args[1]
 strandedness <- args[2]
 padding_base <- toupper(args[3])
 
-# input_file <- "library.txt"
-# strandedness <- "forward"
-# padding_base <- "G"
-
 stopifnot(strandedness %in% c("forward", "reverse"))
 stopifnot(padding_base %in% c("A", "T", "C", "G"))
 

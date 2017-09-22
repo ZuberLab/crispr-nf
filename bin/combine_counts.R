@@ -27,11 +27,6 @@ library_file <- args[1]
 barcode_file <- args[2]
 count_files  <- args[3:length(args)]
 
-# library_file <- "library.txt"
-# barcode_file <- "barcodes.txt"
-# count_files <- c("results/CAF21ANXX_6_20170127B_20170128/counts/CAF21ANXX_6_20170127B_20170128.txt",
-#                  "results/CAF21ANXX_6_20170127B_20170130/counts/CAF21ANXX_6_20170127B_20170130.txt")
-
 # ------------------------------------------------------------------------------
 # functions
 # ------------------------------------------------------------------------------
