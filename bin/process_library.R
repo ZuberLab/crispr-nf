@@ -21,11 +21,20 @@ library(magrittr)
 library(tibble)
 
 # command arguments
-# 1) first argument should be path to library text file
-# 2) second argument should be 
-args       <- commandArgs(trailingOnly = TRUE)
-input_file <- args[1]
-padding    <- args[2]
+# 1) path to library text file
+# 2) strandedness of library (forward, reverse)
+# 3) base (in forward orientation) to make guides length 20
+args         <- commandArgs(trailingOnly = TRUE)
+input_file   <- args[1]
+strandedness <- args[2]
+padding_base <- toupper(args[3])
+
+# input_file <- "library.txt"
+# strandedness <- "forward"
+# padding_base <- "G"
+
+stopifnot(strandedness %in% c("forward", "reverse"))
+stopifnot(padding_base %in% c("A", "T", "C", "G"))
 
 # ------------------------------------------------------------------------------
 # import
@@ -45,10 +54,12 @@ stopifnot(!any(duplicated(raw$sequence)))
 # process
 # ------------------------------------------------------------------------------
 # generate FASTA file for bowtie2 index
-# TODO: this has to be corrected for strandedness
+strand_side <- ifelse(strandedness == "forward", "right", "left")
+padding     <- ifelse(strandedness == "forward", padding_base, chartr("ATGC", "TACG", padding_base))
+
 fasta <- raw$sequence %>%
   toupper %>%
-  str_pad(pad = toupper(padding), width = 20, side = "right") %>%
+  str_pad(pad = padding, width = 20, side = strand_side) %>%
   set_names(raw$id) %>%
   DNAStringSet 
 
