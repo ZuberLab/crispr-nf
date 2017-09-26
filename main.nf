@@ -117,7 +117,7 @@ process trim_random_barcode {
 
     script:
     position = params.forward_stranded ? params.barcode_random_length + 1 : params.barcode_random_length
-    flag_strandedness = params.forward_stranded ? "-f ${position}" : '-t {position}'
+    flag_strandedness = params.forward_stranded ? "-f ${position}" : "-t ${position}"
 
     """
     zcat ${fastq} | fastx_trimmer \
@@ -187,7 +187,7 @@ process trim_barcode_and_spacer {
     script:
     barcode_spacer_length = params.spacer_length + params.barcode_demux_length
     position = params.forward_stranded ? barcode_spacer_length + 1 : barcode_spacer_length
-    flag_strandedness = params.forward_stranded ? "-f ${position}" : '-t {position}'
+    flag_strandedness = params.forward_stranded ? "-f ${position}" : "-t ${position}"
 
     """
     zcat ${fastq} | fastx_trimmer \
@@ -208,6 +208,7 @@ process align {
 
     output:
     set val(lane), val(id), file("${id}.bam") into alignedFiles
+    file "${id}.log" into alignResults
 
     script:
     """
@@ -216,7 +217,7 @@ process align {
         -L 18 \
         -N 0 \
         --seed 42 \
-        <(zcat ${fastq}) \
+        <(zcat ${fastq}) 2> ${id}.log \
     | samtools view -b - \
     | bamtools filter -tag AS:i:0 -out ${id}.bam
 
@@ -242,6 +243,7 @@ process count {
 
     output:
     file("${lane}.txt") into countedFiles
+    file("${lane}.txt.summary") into featureCountsResults
 
     script:
     """
@@ -302,7 +304,9 @@ process multiqc {
     publishDir "${params.resultsDir}/multiqc", mode: 'copy'
 
     input:
-    file (fastqc:'fastqc/*') from fastqcResults.collect()
+    file (fastqc: 'fastqc/*') from fastqcResults.collect()
+    file (align: 'align/*') from alignResults.collect()
+    file (featurecounts: 'featureCounts/*') from featureCountsResults.collect()
 
     output:
     file "*multiqc_report.html" into multiqc_report

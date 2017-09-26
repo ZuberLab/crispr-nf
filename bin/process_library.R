@@ -23,7 +23,7 @@ library(tibble)
 # command arguments
 # 1) path to library text file
 # 2) strandedness of library (forward, reverse)
-# 3) base (in forward orientation) to make guides length 20
+# 3) base (in forward orientation) to fill guide/shrna to maximal length (typically 20 or 22)
 args         <- commandArgs(trailingOnly = TRUE)
 input_file   <- args[1]
 strandedness <- args[2]
@@ -53,9 +53,11 @@ stopifnot(!any(duplicated(raw$sequence)))
 strand_side <- ifelse(strandedness == "forward", "right", "left")
 padding     <- ifelse(strandedness == "forward", padding_base, chartr("ATGC", "TACG", padding_base))
 
+seq_length <- max(nchar(raw$sequence))
+
 fasta <- raw$sequence %>%
   toupper %>%
-  str_pad(pad = padding, width = 20, side = strand_side) %>%
+  str_pad(pad = padding, width = seq_length, side = strand_side) %>%
   set_names(raw$id) %>%
   DNAStringSet 
 
@@ -63,7 +65,7 @@ fasta <- raw$sequence %>%
 saf <- tibble(GeneID = raw$id, 
               Chr    = raw$id, 
               Start  = 1, 
-              End    = 20, 
+              End    = seq_length, 
               Strand = "*")
 
 # ------------------------------------------------------------------------------
