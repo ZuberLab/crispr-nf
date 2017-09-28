@@ -1,5 +1,77 @@
 #!/usr/bin/env nextflow
 
+def helpMessage() {
+    log.info"""
+    ================================================================
+     crispr-nf
+    ================================================================
+
+    Pre-processing of CRISPR-Cas9 / shRNA screening data
+
+    Usage:
+    nextflow run ZuberLab/crispr-nf
+
+    Options:
+        --readDir               Directory containing the raw reads. Valid input
+                                files are BAM and compressed FASTQ. (Defaults to
+                                'reads')
+
+        --library               Path to sgRNA / shRNA library file. (Defaults to
+                                'library.txt')
+                                The following columns are required:
+                                    - id: unique name of sgRNA / shRNA
+                                    - gene: gene targeted by sgRNA / shRNA
+                                    - sequence: nucleotide sequence of sgRNA / shRNA
+
+        --barcodes              Path to file containing barcodes for demultiplexing.
+                                (Defaults to 'barcodes.txt')
+                                The following columns are required:
+                                    - lane: name of BAM / FASTQ input file
+                                    - sample_name: name of demultiplexed sample
+                                    - barcode: nucleotide sequence of sample barcode
+
+        --forward_stranded         Orientation of reads in BAM / FASTQ files.
+                                   (Defaults to true)
+
+        --barcode_random_length    Number of nucleotides in random barcode
+                                   (Defaults to 6)
+
+        --barcode_demux_mismatches Number of mismatches allowed during demultiplexing
+                                   of barcode. (Defaults to 1)
+
+        --barcode_demux_length     Number of nucleotides in sample barcode.
+                                   (Defaults to 4)
+
+        --spacer_length            Number of nucleotides in spacer sequence between
+                                   barcodes and sgRNA / shRNA sequence. (Defaults to 20)
+
+        --padding_base             Nucleotide used for padding if sgRNA / shRNA are of
+                                   unequal length. Must be one of G, C, T, and A.
+                                   (Defaults to G)
+
+        --resultsDir               Directory to save results to. (Defaults to
+                                   'results')
+
+    Profiles:
+        standard        local execution with singularity
+        sge             SGE execution with singularity
+        local           local execution without singularity
+
+    Docker:
+    zuberlab/crispr-nf:latest
+
+    Author:
+    Jesse J. Lipp (jesse.lipp@imp.ac.at)
+
+    """.stripIndent()
+}
+
+if (params.help){
+    helpMessage()
+    exit 0
+}
+
+
 strandedness = params.forward_stranded ? "forward": "reverse"
 
 log.info " Screen Preprocessing "
