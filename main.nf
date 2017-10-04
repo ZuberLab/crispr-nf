@@ -55,7 +55,8 @@ def helpMessage() {
     Profiles:
         standard        local execution with singularity
         sge             SGE execution with singularity
-        local           local execution without singularity
+        slurm           SLURM execution with singularity
+        test            local execution without singularity
 
     Docker:
     zuberlab/crispr-nf:latest
