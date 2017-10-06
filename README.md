@@ -3,10 +3,14 @@
 Pre-processing of CRISPR-Cas9 / shRNA screening data
 
 ## Basic usage
+```bash
 nextflow run ZuberLab/crispr-nf
+```
 
 ## Documentation
+```bash
 nextflow run ZuberLab/crispr-nf --help
+```
 
 ## Credits
 Nextflow:  Paolo Di Tommaso - https://github.com/nextflow-io/nextflow
