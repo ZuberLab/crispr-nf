@@ -286,6 +286,7 @@ process align {
     script:
     """
     bowtie2 \
+        --threads ${task.cpus} \
         -x ${index}/ \
         -L 18 \
         -N 0 \
@@ -321,6 +322,7 @@ process count {
     script:
     """
     featureCounts \
+        -T ${task.cpus} \
         -a ${saf} \
         -F SAF \
         -o ${lane}.txt \
