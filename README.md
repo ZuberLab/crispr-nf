@@ -21,4 +21,5 @@ nextflow run ZuberLab/crispr-nf --help
 
 ## Credits
 Nextflow:  Paolo Di Tommaso - https://github.com/nextflow-io/nextflow
+
 Singularity: http://singularity.lbl.gov
