@@ -191,7 +191,8 @@ process trim_random_barcode {
     script:
     position = params.forward_stranded ? params.barcode_random_length + 1 : params.barcode_random_length
     flag_strandedness = params.forward_stranded ? "-f ${position}" : "-t ${position}"
-
+    flag_strandedness = params.barcode_random_length > 0 ? flag_strandedness : '-f 1'
+    
     """
     zcat ${fastq} | fastx_trimmer \
         ${flag_strandedness} \
