@@ -37,8 +37,9 @@ stopifnot(padding_base %in% c("A", "T", "C", "G"))
 # ------------------------------------------------------------------------------
 # library file should be tab-separated text file with three columns:
 # 1) id      : unique id of sgRNA / shRNA
-# 2) sequence: sequence of sgRNA / shRNA as it appears in the sequencing reads
-# 3) gene    : gene targeted by sgRNA / shRNA (grouping variable)
+# 2) group   : group targeted by sgRNA / shRNA (e.g gene id or domain)
+# 3) sequence: sequence of sgRNA / shRNA as it appears in the sequencing reads
+
 
 raw <- read_tsv(input_file)
 
