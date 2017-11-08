@@ -287,7 +287,7 @@ process align {
     script:
     """
     bowtie2 \
-        --threads ${task.cpus} \
+        --threads $((${task.cpus} - 4)) \
         -x ${index}/ \
         -L 18 \
         -N 0 \
