@@ -326,7 +326,6 @@ process count {
         -T ${task.cpus} \
         -a ${saf} \
         -F SAF \
-        --donotsort \
         -o ${lane}.txt \
         ${bams}
     """
