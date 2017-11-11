@@ -281,7 +281,7 @@ process align {
     each file(index) from bt2Index
 
     output:
-    set val(lane), val(id), file("${id}.bam") into alignedFiles
+    set val(lane), val(id), file("${id}.sam") into alignedFiles
     file "${id}.log" into alignResults
 
     script:
@@ -290,11 +290,10 @@ process align {
         --threads \$((${task.cpus} - 4)) \
         -x ${index}/ \
         -L 18 \
+        --score-min 'C,0,-1' \
         -N 0 \
         --seed 42 \
-        <(zcat ${fastq}) 2> ${id}.log \
-    | samtools view -b - \
-    | bamtools filter -tag AS:i:0 -out ${id}.bam
+        <(zcat ${fastq}) 2> ${id}.log > ${id}.sam
 
     """
 }
@@ -313,7 +312,7 @@ process count {
                overwrite: 'true'
 
     input:
-    set val(lane), file(bams) from groupedAlignedFiles
+    set val(lane), file(sams) from groupedAlignedFiles
     each file(saf) from librarySafFile
 
     output:
@@ -327,7 +326,7 @@ process count {
         -a ${saf} \
         -F SAF \
         -o ${lane}.txt \
-        ${bams}
+        ${sams}
     """
 }
 

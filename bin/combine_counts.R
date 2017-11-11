@@ -40,7 +40,7 @@ read_featurecounts <- function(path) {
 # combine counts
 # ------------------------------------------------------------------------------
 names(count_files) <- str_replace(basename(count_files), ".txt", "")
-pattern <- paste(c(paste0(names(count_files), "_"), ".bam"), collapse = "|")
+pattern <- paste(c(paste0(names(count_files), "_"), ".sam"), collapse = "|")
 
 counts <- lapply(count_files, read_featurecounts) %>%
   lapply(gather, sample_name, count, -id) %>%
