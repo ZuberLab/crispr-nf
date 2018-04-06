@@ -339,7 +339,7 @@ process combine_counts {
                overwrite: 'true',
                saveAs: {filename ->
                    if (filename.indexOf(".log") > 0) "/logs/${filename}"
-                   else if (filename.indexOf(".bam") > 0) "$filename"
+                   else if (filename.indexOf(".txt") > 0) "$filename"
                    else null }
 
     input:
