@@ -340,7 +340,7 @@ process combine_counts {
                saveAs: {filename ->
                    if (filename.indexOf(".log") > 0) "/logs/${filename}"
                    else if (filename.indexOf(".bam") > 0) "$filename"
-                   else null
+                   else null }
 
     input:
     file(counts) from countedFiles.collect()
