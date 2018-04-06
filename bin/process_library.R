@@ -51,8 +51,8 @@ stopifnot(!any(duplicated(raw$sequence)))
 # process
 # ------------------------------------------------------------------------------
 # generate FASTA file for bowtie2 index
-strand_side <- ifelse(strandedness == "forward", "right", "left")
-padding     <- ifelse(strandedness == "forward", padding_base, chartr("ATGC", "TACG", padding_base))
+strand_side <- ifelse(strandedness == "forward", "left", "right")
+padding     <- ifelse(strandedness == "forward", chartr("ATGC", "TACG", padding_base), padding_base)
 
 seq_length <- max(nchar(raw$sequence))
 
