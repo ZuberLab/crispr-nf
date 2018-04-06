@@ -336,11 +336,7 @@ process combine_counts {
 
     publishDir path: "${params.resultsDir}/counts",
                mode: 'copy',
-               overwrite: 'true',
-               saveAs: {filename ->
-                   if (filename.indexOf(".log") > 0) "/logs/${filename}"
-                   else if (filename.indexOf(".txt") > 0) "$filename"
-                   else null }
+               overwrite: 'true'
 
     input:
     file(counts) from countedFiles.collect()

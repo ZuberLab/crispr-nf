@@ -74,9 +74,6 @@ eset <- ExpressionSet(assayData = counts,
                       featureData = features,
                       phenoData = pheno)
 
-eset %>%
-  write_rds("counts.rds")
-
 # ------------------------------------------------------------------------------
 # MAGeCK output
 # ------------------------------------------------------------------------------
