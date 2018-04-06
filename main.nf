@@ -344,7 +344,6 @@ process combine_counts {
     file(barcodes) from combineBarcodeFiles
 
     output:
-    file("counts.rds") into combinedCountsFile
     file("counts_mageck.txt") into combinedMageckFile
 
     script:
