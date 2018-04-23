@@ -1,4 +1,5 @@
-# crispr-nf
+# crispr-nf (deprecated)
+** DEPRECATED: Use zuberlab/crispr-process-nf **
 
 Pre-processing of CRISPR-Cas9 / shRNA screening data
 
